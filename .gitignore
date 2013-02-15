@@ -1,3 +1,5 @@
 proj_test/build/*
 cmake-2.8.10.2/build/*
 cmake-2.8.10.2/.DS_Store
+cmake-2.8.10.2-WIN/build/*
+cmake-2.8.10.2-WIN/.DS_Store
