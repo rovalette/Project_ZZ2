@@ -35,6 +35,8 @@ macro(create_compile_test _src_file _test_name)
 		set(_return_value 0)
 	endif()
 	
+	set(__test_name ${_test_name})
+	
 	configure_file(
 		test/template_test.cpp.in
 		${CMAKE_CURRENT_BINARY_DIR}/test/src/${_test_name}.cpp
@@ -46,7 +48,7 @@ macro(create_compile_test _src_file _test_name)
 	)
 	
 	add_test(
-		${_test_name}
+		try_compile_${_test_name}
 		test/bin/${_test_name}
 	)
 	

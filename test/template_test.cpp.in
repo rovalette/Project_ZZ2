@@ -2,7 +2,7 @@
 
 int main(int argc, char ** argv)
 {
-	std::cout << "try compile ${_test_name}" << std::endl;
+	std::cout << "try compile @__test_name@" << std::endl;
 
 	std::cout << "@_log_infos@" << std::endl;
 	
