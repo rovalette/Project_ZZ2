@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-//#include <regex>
 
 int main(int argc, char ** argv)
 {
@@ -10,15 +9,11 @@ int main(int argc, char ** argv)
 	{
 		std::ifstream errorFile("@_error_file@");
 		
-		//std::regex reg(".*error.*");
-		
 		std::string str;
 		while (std::getline(errorFile, str))
 		{
-			//if (std::regex_match(str,reg))
-			{
+			if (str.find("error") != std::string::npos || str.find("warning") != std::string::npos)
 				std::cout << str << std::endl;
-			}
 		}
 	}
 	

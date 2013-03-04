@@ -1,12 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
 
-#set(CMAKE_CXX_COMPILER g++-mp-4.7)
-
 project(proj_test)
 
 set(EXECUTABLE_OUTPUT_PATH test/bin/)
-
-#add_definitions(-std=c++11)
 
 macro(compile_test _src_file _result _error_log)
 	
