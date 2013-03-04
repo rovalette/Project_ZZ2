@@ -10,13 +10,14 @@ macro(compile_test _src_file _result _error_log)
 		result
 		${CMAKE_CURRENT_BINARY_DIR}/bin
 		${_src_file}
-		OUTPUT_VARIABLE ${_error_log}
+		OUTPUT_VARIABLE error_log
 	)
 	
 	if(result)
 		set(${_result} FALSE)
 	else()
 		set(${_result} TRUE)
+		set(${_error_log} ${error_log})
 	endif()
 	
 endmacro(compile_test)
@@ -63,8 +64,9 @@ file(
 enable_testing()
 
 foreach(f ${source_files})
-	string(REGEX REPLACE ".*/([^/]+).cpp" "\\1" testname ${f})
-	message(STATUS "----> ${f}")
-	create_compile_test(${f} ${testname})
+	get_filename_component(testname ${f} NAME)
+	get_filename_component(testnameWE ${f} NAME_WE)
+	message(STATUS "----> ${testname}")
+	create_compile_test(${f} ${testnameWE})
 endforeach()
 
