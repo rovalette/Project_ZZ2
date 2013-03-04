@@ -4,27 +4,39 @@ project(proj_test)
 
 set(EXECUTABLE_OUTPUT_PATH bin/)
 
-macro(compile_test src_file)
+macro(compile_test _src_file _result _error_log)
 	
 	try_compile(
 		result
 		${CMAKE_CURRENT_BINARY_DIR}/bin
-		${src_file}
-		OUTPUT_VARIABLE compile_error_log
+		${_src_file}
+		OUTPUT_VARIABLE ${_error_log}
 	)
 	
-	message(STATUS "------> ${result}")
-	message(STATUS ${compile_error_log})
+	if(result)
+		set(${_result} FALSE)
+	else()
+		set(${_result} TRUE)
+	endif()
 	
 endmacro(compile_test)
 
+macro(create_compile_test _src_file)
+	
+endmacro(create_compile_test)
+
 file(
-	GLOB_RECURSE
+	GLOB
 	source_files
 	src/*.cpp
 )
 
 foreach(f ${source_files})
-	message(STATUS "----> compile_test(${f})")
-	compile_test(${f})
+	message(STATUS "----> ${f}")
+	compile_test(${f} result log)
+	message(STATUS "--------> ${result}")
+	if(result)
+		#message(STATUS ${log})
+	endif()
 endforeach()
+
