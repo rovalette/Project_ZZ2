@@ -1,10 +1,26 @@
 #include <iostream>
+#include <fstream>
+//#include <regex>
 
 int main(int argc, char ** argv)
 {
 	std::cout << "try compile @__test_name@" << std::endl;
-
-	std::cout << "@_log_infos@" << std::endl;
+	
+	if (@_is_errors@)
+	{
+		std::ifstream errorFile("@_error_file@");
+		
+		//std::regex reg(".*error.*");
+		
+		std::string str;
+		while (std::getline(errorFile, str))
+		{
+			//if (std::regex_match(str,reg))
+			{
+				std::cout << str << std::endl;
+			}
+		}
+	}
 	
 	std::cout << "Test @_success_or_fail@" << std::endl;
 	

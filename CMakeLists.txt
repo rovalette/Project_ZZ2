@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 2.6)
 
+#set(CMAKE_CXX_COMPILER g++-mp-4.7)
+
 project(proj_test)
 
 set(EXECUTABLE_OUTPUT_PATH test/bin/)
+
+#add_definitions(-std=c++11)
 
 macro(compile_test _src_file _result _error_log)
 	
@@ -26,17 +30,24 @@ macro(create_compile_test _src_file _test_name)
 	
 	compile_test(${_src_file} result log)
 	
+	set(__test_name ${_test_name})
+	
 	if(result)
+		set(_error_file ${CMAKE_CURRENT_BINARY_DIR}/test/data/${_test_name}_errors.txt)
+		configure_file(
+			test/template_errors.txt.in
+			${_error_file}
+		)
+		set(_is_errors true)
 		set(_success_or_fail failed)
 		set(_log_infos "")
 		set(_return_value 1)
 	else()
+		set(_is_errors false)
 		set(_success_or_fail succeeded)
 		set(_log_infos "")
 		set(_return_value 0)
 	endif()
-	
-	set(__test_name ${_test_name})
 	
 	configure_file(
 		test/template_test.cpp.in
