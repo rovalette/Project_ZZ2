@@ -1,0 +1,12 @@
+#include <iostream>
+
+int main(int argc, char ** argv)
+{
+	std::cout << "try compile ${_test_name}" << std::endl;
+
+	std::cout << "@_log_infos@" << std::endl;
+	
+	std::cout << "Test @_success_or_fail@" << std::endl;
+	
+	return @_return_value@;
+}
