@@ -13,19 +13,18 @@ macro(compile_test src_file)
 		OUTPUT_VARIABLE compile_error_log
 	)
 	
-	message(STATUS ${RESULT})
-	#message(STATUS ${LOG1})
+	message(STATUS "------> ${result}")
+	message(STATUS ${compile_error_log})
 	
 endmacro(compile_test)
 
 file(
 	GLOB_RECURSE
 	source_files
-	src/*
+	src/*.cpp
 )
 
 foreach(f ${source_files})
+	message(STATUS "----> compile_test(${f})")
 	compile_test(${f})
 endforeach()
-
-
