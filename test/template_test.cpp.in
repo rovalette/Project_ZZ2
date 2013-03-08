@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <list>
 
 int main(int argc, char ** argv)
 {
@@ -8,16 +9,43 @@ int main(int argc, char ** argv)
 	if (@_is_errors@)
 	{
 		std::ifstream errorFile("@_error_file@");
+		std::ifstream expected("@_expected_error@");
+		
+		std::list<std::string> listError;
 		
 		std::string str;
+		
+		while (std::getline(expected, str))
+		{
+			listError.push_front(str);
+		}
+			
+		std::list<std::string>::iterator it;	
+		
 		while (std::getline(errorFile, str))
 		{
 			if (str.find("error") != std::string::npos || str.find("warning") != std::string::npos)
-				std::cout << str << std::endl;
+			{
+				it = listError.begin();
+				
+				while(it != listError.end() && str.find(*it) == std::string::npos)
+				{
+					++it;
+				}
+					
+				// Si c'était une erreur non attendue c'est pas bon
+				if (it == listError.end())
+				{
+					std::cout << "UNKNOW ERROR FOUND in " << str << std::endl;
+					return true;
+				}
+			}
 		}
+		
+		return false;
 	}
 	
-	std::cout << "Test @_success_or_fail@" << std::endl;
+	std::cout << "NO ERROR FOUND : FAILED" << std::endl;
 	
-	return @_return_value@;
+	return true;
 }
