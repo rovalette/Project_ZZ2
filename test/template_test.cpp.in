@@ -28,6 +28,8 @@ int main(int argc, char ** argv)
 			{
 				it = listError.begin();
 				
+				std::cout << str << std::endl;
+				
 				while(it != listError.end() && str.find(*it) == std::string::npos)
 				{
 					++it;
@@ -37,15 +39,16 @@ int main(int argc, char ** argv)
 				if (it == listError.end())
 				{
 					std::cout << "UNKNOW ERROR FOUND in " << str << std::endl;
-					return true;
+					return 1;
 				}
 			}
 		}
 		
-		return false;
+		return 0;
 	}
 	
 	std::cout << "NO ERROR FOUND : FAILED" << std::endl;
 	
-	return true;
+	return 0;
 }
+
