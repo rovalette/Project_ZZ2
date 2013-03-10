@@ -1,21 +1,23 @@
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <list>
 
 int main(int argc, char ** argv)
 {
-	std::cout << "try compile @__test_name@" << std::endl;
+	std::cout << "try compile @_test_name@" << std::endl;
 	
-	if (@_is_errors@)
+	if (@result@)
 	{
 		std::ifstream errorFile("@_error_file@");
-		std::ifstream expected("@_expected_error@");
+		//std::ifstream expected("@_expected_error@");
 		
+		std::istringstream expected("@expected_error@");
 		std::list<std::string> listError;
 		
 		std::string str;
 		
-		while (std::getline(expected, str))
+		while (std::getline(expected, str, ';'))
 		{
 			listError.push_front(str);
 		}
@@ -24,31 +26,35 @@ int main(int argc, char ** argv)
 		
 		while (std::getline(errorFile, str))
 		{
-			if (str.find("error") != std::string::npos || str.find("warning") != std::string::npos)
+			if (str.find("error:") != std::string::npos /*|| str.find("warning:") != std::string::npos*/)
 			{
 				it = listError.begin();
 				
-				std::cout << str << std::endl;
+				//std::cout << str << std::endl;
 				
 				while(it != listError.end() && str.find(*it) == std::string::npos)
 				{
 					++it;
 				}
 					
-				// Si c'était une erreur non attendue c'est pas bon
+				// if not expected error
 				if (it == listError.end())
 				{
-					std::cout << "UNKNOW ERROR FOUND in " << str << std::endl;
-					return 1;
+					std::cout << "UNKNOWN ERROR FOUND in " << str << std::endl;
+					return listError.size()?1:0;
+				}
+				else
+				{
+					std::cout << "EXPECTED ERROR FOUND" << std::endl;
 				}
 			}
 		}
 		
-		return 0;
+		return @_expected_result@?1:0;
 	}
 	
-	std::cout << "NO ERROR FOUND : FAILED" << std::endl;
+	std::cout << "NO ERROR FOUND" << std::endl;
 	
-	return 0;
+	return @_expected_result@?0:1;
 }
 
