@@ -6,6 +6,6 @@ int main()
 	
 	
 	
-	//for (auto& j : i);
+	for (auto& j : i);
 	
 }
