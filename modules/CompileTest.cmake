@@ -30,25 +30,28 @@ endmacro(compile_test)
 #
 
 macro(create_compile_test _src_file _test_name _expected_result _expected_error)
+	
+	if (NOT ${_expected_error})
+		message(FATAL_ERROR "${_expected_error} is not defined")
+	endif()
+	set(__expected_error ${_expected_error})
+	set(expected_error ${${_expected_error}})
+	
 	compile_test(${_src_file} result log)
 	
 	string(TOLOWER ${result} result)
 	string(TOLOWER ${_expected_result} _expected_result)
 	
-	set(expected_error ${${_expected_error}})
-	
 	set(_error_file ${CMAKE_CURRENT_BINARY_DIR}/test/data/${_test_name}_errors.txt)
 	configure_file(
 		test/template_errors.txt.in
 		${_error_file}
-		@ONLY
 	)
 	#set(_expected_error ${CMAKE_CURRENT_SOURCE_DIR}/test/expected_error.txt.in)
 	
 	configure_file(
 		test/template_test.cpp.in
 		${CMAKE_CURRENT_BINARY_DIR}/test/src/${_test_name}.cpp
-		@ONLY
 	)
 	
 	add_executable(

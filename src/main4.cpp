@@ -2,8 +2,10 @@
 
 int main()
 {
-	std::list<int> i = a;
+	std::list<int> i = lol(38);
 	
-	for (auto& j : i);
+	
+	
+	//for (auto& j : i);
 	
 }

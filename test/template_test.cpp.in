@@ -4,24 +4,23 @@
 #include <list>
 
 int main(int argc, char ** argv)
-{
-	std::cout << "try compile @_test_name@" << std::endl;
+{	
+	int return_value = @_expected_result@?1:0;
 	
 	if (@result@)
 	{
 		std::ifstream errorFile("@_error_file@");
-		//std::ifstream expected("@_expected_error@");
 		
 		std::istringstream expected("@expected_error@");
 		std::list<std::string> listError;
 		
 		std::string str;
 		
-		while (std::getline(expected, str, ';'))
+		while (std::getline(expected, str, '@'))
 		{
 			listError.push_front(str);
 		}
-			
+		
 		std::list<std::string>::iterator it;	
 		
 		while (std::getline(errorFile, str))
@@ -40,21 +39,25 @@ int main(int argc, char ** argv)
 				// if not expected error
 				if (it == listError.end())
 				{
-					std::cout << "UNKNOWN ERROR FOUND in " << str << std::endl;
-					return listError.size()?1:0;
+					std::cout << "UNEXPECTED ERROR FOUND :" << std::endl;
 				}
 				else
 				{
-					std::cout << "EXPECTED ERROR FOUND" << std::endl;
+					std::cout << "EXPECTED ERROR FOUND (@__expected_error@) :" << std::endl;
 				}
+				
+				int idx = str.find("error:");
+				std::string errorText = str.substr(idx);
+				std::cout << '\t' << str.erase(idx) << std::endl;
+				std::cout << '\t' << errorText << std::endl;
 			}
 		}
 		
-		return @_expected_result@?1:0;
+		return return_value;
 	}
 	
 	std::cout << "NO ERROR FOUND" << std::endl;
 	
-	return @_expected_result@?0:1;
+	return !return_value;
 }
 
