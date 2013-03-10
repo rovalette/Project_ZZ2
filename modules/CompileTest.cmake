@@ -44,13 +44,12 @@ macro(create_compile_test _src_file _test_name _expected_result _expected_error)
 	
 	set(_error_file ${CMAKE_CURRENT_BINARY_DIR}/test/data/${_test_name}_errors.txt)
 	configure_file(
-		test/template_errors.txt.in
+		modules/template_errors.txt.in
 		${_error_file}
 	)
-	#set(_expected_error ${CMAKE_CURRENT_SOURCE_DIR}/test/expected_error.txt.in)
 	
 	configure_file(
-		test/template_test.cpp.in
+		modules/template_test.cpp.in
 		${CMAKE_CURRENT_BINARY_DIR}/test/src/${_test_name}.cpp
 	)
 	
@@ -65,8 +64,3 @@ macro(create_compile_test _src_file _test_name _expected_result _expected_error)
 	)
 endmacro(create_compile_test)
 
-#macro(create_compile_test _src_file _test_name _expected_result)
-	
-#	create_compile_test(${_src_file} ${_test_name} ${_expected_result} "")
-	
-#endmacro(create_compile_test)
