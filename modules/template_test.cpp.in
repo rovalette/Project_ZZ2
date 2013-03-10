@@ -5,7 +5,7 @@
 
 int main(int argc, char ** argv)
 {	
-	int return_value = @_expected_result@?1:0;
+	int return_value = @__expected_result@?1:0;
 	
 	if (@result@)
 	{
@@ -40,10 +40,14 @@ int main(int argc, char ** argv)
 				if (it == listError.end())
 				{
 					std::cout << "UNEXPECTED ERROR FOUND :" << std::endl;
+					if (! @_allow_unexpected@)
+					{
+						return_value = 1;
+					}
 				}
 				else
 				{
-					std::cout << "EXPECTED ERROR FOUND (@__expected_error@) :" << std::endl;
+					std::cout << "*** EXPECTED ERROR FOUND (@__expected_error@) :" << std::endl;
 				}
 				
 				int idx = str.find("error:");
@@ -53,10 +57,15 @@ int main(int argc, char ** argv)
 			}
 		}
 		
+		if ( (! @_allow_unexpected@) && (return_value == 1))
+		{
+			std::cout << std::endl << "*** TEST FAILED : unexpected errors were not allowed" << std::endl << std::endl;
+		}
+		
 		return return_value;
 	}
 	
-	std::cout << "NO ERROR FOUND" << std::endl;
+	std::cout << "*** NO ERROR FOUND : @_no_error_text@" << std::endl;
 	
 	return !return_value;
 }
