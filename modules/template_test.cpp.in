@@ -7,7 +7,7 @@ int main(int argc, char ** argv)
 {	
 	int return_value = @__expected_result@?1:0;
 	
-	if (@result@)
+	if (! @result@)
 	{
 		std::ifstream errorFile("@_error_file@");
 		
