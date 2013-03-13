@@ -2,7 +2,7 @@
 
 int main()
 {
-	std::list<int> i = lol(38);
+	std::list<int> i = a;
 	
 	
 	
