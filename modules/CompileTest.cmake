@@ -105,6 +105,7 @@ macro(add_compile_test _src_file _test_name _expected_result _expected_error)
 	add_test(
 		${_test_name}
 		test/bin/${_test_name}
-	)
+	)	
+	
 endmacro(add_compile_test)
 
